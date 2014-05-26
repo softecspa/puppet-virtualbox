@@ -4,14 +4,14 @@ class virtualbox(
   $use_apt      = true
 ) {
 
-  require cygwin
-
   if $version !~ /^4\.3\./ {
     fail("only major version 4.3 is supported")
   }
 
   case $::operatingsystem {
     "windows":  {
+      require cygwin
+
       $source           = "http://download.virtualbox.org/virtualbox/${version}/VirtualBox-${version}-93733-Win.exe"
       $filename         = "${tmp_dir}\\VirtualBox-${version}-93733-Win.exe"
       $provider         = "windows"
@@ -44,7 +44,10 @@ class virtualbox(
       }
       $install_options  = undef
       $pkg_name         = 'virtualbox'
-      $ensure           = $version
+      $ensure           = $use_apt?{
+        true  => $version,
+        false => 'installed'
+      }
 
       if !$use_apt {
         exec {'download virtualbox deb':
