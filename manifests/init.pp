@@ -28,7 +28,7 @@ class virtualbox(
 
       windows_path{'virtualbox':
         ensure    => 'present',
-        directory => 'C:\Program Files\Oracle\VirtualBox',
+        directory => 'C:\\Program Files\\Oracle\\VirtualBox',
         require   => Package[$pkg_name]
       }
     }
