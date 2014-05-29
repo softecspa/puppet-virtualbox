@@ -39,4 +39,4 @@ In Ubuntu no dependencies are present
 Option parameter version should be used to specify a version of package to install. **This parameter will be evalueted only in Windows**, in ubuntu it will be ignored and latest version will be installed.
 
 ## Limitations
-** In Windows versions different from 4.3.12 are not tested!**
+**In Windows versions different from 4.3.12 are not tested!**
