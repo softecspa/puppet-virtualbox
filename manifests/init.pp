@@ -18,6 +18,7 @@ class virtualbox(
       $install_options  = [ "--silent" ]
       $pkg_name         = "Oracle VM VirtualBox ${version}"
       $ensure           = 'installed'
+      $notify           = Exec['install extpack']
 
 
       cygwin::wget {$source:
@@ -33,30 +34,12 @@ class virtualbox(
     }
 
     'ubuntu': {
-      $source           = $use_apt?{
-        true  => undef,
-        false => "http://download.virtualbox.org/virtualbox/${version}/virtualbox-4.3_${version}-93733~Ubuntu~${::lsbdistcodename}_${::architecture}.deb"
-      }
-      $filename         = "${tmp_dir}/virtualbox-4.3_${version}-93733~Ubuntu~${::lsbdistcodename}_${::architecture}.deb"
-      $provider         = $use_apt?{
-        true  => 'apt',
-        false => 'dpkg'
-      }
-      $install_options  = undef
       $pkg_name         = 'virtualbox'
-      $ensure           = $use_apt?{
-        true  => $version,
-        false => 'installed'
-      }
-
-      if !$use_apt {
-        exec {'download virtualbox deb':
-          command => "wget $source -O $filename",
-          creates => $filename,
-          path    => $::path,
-          before  => Package[$pkg_name]
-        }
-      }
+      $ensure           = latest
+      $source           = undef
+      $provider         = 'apt'
+      $install_options  = undef
+      $notify           = undef
     }
   }
 
@@ -65,10 +48,10 @@ class virtualbox(
     source          => $filename,
     provider        => $provider,
     install_options => $install_options,
-    notify          => Exec['install extpack'],
+    notify          => $notify
   }
 
-  #class {'virtualbox::extension_pack':
-  #  tmp_dir => $tmp_dir
-  #}
+  class {'virtualbox::extension_pack':
+    tmp_dir => $tmp_dir
+  }
 }
