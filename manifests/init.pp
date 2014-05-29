@@ -1,7 +1,6 @@
 class virtualbox(
   $version      = '4.3.12',
   $tmp_dir      = '',
-  $use_apt      = true
 ) {
 
   if $version !~ /^4\.3\./ {
@@ -11,6 +10,10 @@ class virtualbox(
   case $::operatingsystem {
     "windows":  {
       require cygwin
+
+      if $tmp_dir == '' {
+        fail('in windows env you have to specify a tmp_dir')
+      }
 
       $source           = "http://download.virtualbox.org/virtualbox/${version}/VirtualBox-${version}-93733-Win.exe"
       $filename         = "${tmp_dir}\\VirtualBox-${version}-93733-Win.exe"
