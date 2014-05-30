@@ -55,6 +55,16 @@ class virtualbox(
       $install_options  = undef
       $notify           = undef
 
+      $dependencies = $::lsbdistcodename?{
+        'lucid'   => [ 'libvpx0' ],
+        'precise' => [ 'libvpx1' ],
+      }
+
+      package {$dependencies :
+        ensure  => present,
+        before  => Deb::From_url[$pkg_name]
+      }
+
       deb::from_url {$pkg_name :
         url     => "http://download.virtualbox.org/virtualbox/${major_version}/${pkg_name}_${version}~Ubuntu~${::lsbdistcodename}_${::architecture}.deb",
         version => $version
