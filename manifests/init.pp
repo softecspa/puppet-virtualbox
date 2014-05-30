@@ -8,7 +8,7 @@ class virtualbox(
   }
 
   $minor_part = inline_template("<%= @version.split('-').at(-1) %>")
-  $major_version = regsubst($version,$minor_part,'')
+  $major_version = regsubst($version,"-${minor_part}",'')
 
   case $::operatingsystem {
     "windows":  {
