@@ -44,7 +44,7 @@ class virtualbox::extension_pack (
       exec {'install extension pack':
         command => "VBoxManage extpack install ${filename}",
         unless  => 'VBoxMagage list extpacks | grep \'Oracle VM VirtualBox Extension Pack\'',
-        notify  => 'rm extpack',
+        notify  => Exec['rm extpack'],
         path    => $::path,
         require => Exec['wget extension pack']
       }
