@@ -37,13 +37,13 @@ class virtualbox::extension_pack (
       exec {'wget extension pack':
         command => "wget ${source} --output-document=${filename}",
         creates => $filename,
-        unless  => 'VBoxMagage list extpacks | grep \'Oracle VM VirtualBox Extension Pack\'',
+        unless  => 'VBoxManage list extpacks | grep \'Oracle VM VirtualBox Extension Pack\'',
         path    => $::path
       }
 
       exec {'install extension pack':
         command => "VBoxManage extpack install ${filename}",
-        unless  => 'VBoxMagage list extpacks | grep \'Oracle VM VirtualBox Extension Pack\'',
+        unless  => 'VBoxManage list extpacks | grep \'Oracle VM VirtualBox Extension Pack\'',
         notify  => Exec['rm extpack'],
         path    => $::path,
         require => Exec['wget extension pack']
