@@ -73,6 +73,7 @@ class virtualbox(
   }
 
   class {'virtualbox::extension_pack':
-    tmp_dir => $tmp_dir
+    tmp_dir => $tmp_dir,
+    version => $version
   }
 }
