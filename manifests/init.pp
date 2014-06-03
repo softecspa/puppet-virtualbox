@@ -25,6 +25,7 @@ class virtualbox(
       $pkg_name         = "Oracle VM VirtualBox ${major_version}"
       $ensure           = 'installed'
       $notify           = Exec['install extpack']
+      $extpack_tmp_dir  = $tmp_dir
 
 
       cygwin::wget {$source:
@@ -54,6 +55,7 @@ class virtualbox(
       $provider         = 'apt'
       $install_options  = undef
       $notify           = undef
+      $extpack_tmp_dir  = '/tmp'
 
       $dependencies = $::lsbdistcodename?{
         'lucid'   => [ 'libvpx0' ],
@@ -73,7 +75,7 @@ class virtualbox(
   }
 
   class {'virtualbox::extension_pack':
-    tmp_dir => $tmp_dir,
+    tmp_dir => $extpack_tmp_dir,
     version => $version
   }
 }
