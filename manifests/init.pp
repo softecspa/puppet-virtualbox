@@ -12,7 +12,6 @@ class virtualbox(
 
   case $::operatingsystem {
     "windows":  {
-      require powershell
 
       if $tmp_dir == '' {
         fail('in windows env you have to specify a tmp_dir')
