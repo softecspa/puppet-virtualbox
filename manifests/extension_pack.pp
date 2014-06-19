@@ -18,9 +18,12 @@ class virtualbox::extension_pack (
     "windows":  {
       $filename         = "${tmp_dir}\\Oracle_VM_VirtualBox_Extension_Pack-${version}.vbox-extpack"
 
-      cygwin::wget {$source:
-        path    => $filename,
-        before  => Exec['install extpack']
+      exec {'download vbox_extension_pack':
+        command   => "\$(New-Object System.Net.WebClient).DownloadFile('$source','$filename')",
+        creates   => $filename,
+        before    => Exec['install extpack'],
+        path      => $::path
+        provider  => powershell,
       }
 
       exec {'install extpack':

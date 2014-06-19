@@ -30,7 +30,7 @@ This module manage installation of virtualbox. It work and it's tested on:
 
 ###Setup Requirements
 in windows it require modules:
- * softecspa/puppet-cygwin
+ * softecspa/puppetlabs-powershell
  * basti1302/puppet-windows-path
 
 In Ubuntu no dependencies are present

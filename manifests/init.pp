@@ -12,7 +12,7 @@ class virtualbox(
 
   case $::operatingsystem {
     "windows":  {
-      require cygwin
+      require powershell
 
       if $tmp_dir == '' {
         fail('in windows env you have to specify a tmp_dir')
@@ -27,10 +27,12 @@ class virtualbox(
       $notify           = Exec['install extpack']
       $extpack_tmp_dir  = $tmp_dir
 
-
-      cygwin::wget {$source:
-        path    => $filename,
-        before  => Package[$pkg_name],
+      exec {'download virtualbox':
+        command   => "\$(New-Object System.Net.WebClient).DownloadFile('$source','$filename')",
+        creates   => $filename,
+        provider  => powershell,
+        path      => $::path
+        before    => Package[$pkg_name]
       }
 
       windows_path{'virtualbox':
