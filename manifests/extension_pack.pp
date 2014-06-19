@@ -22,7 +22,7 @@ class virtualbox::extension_pack (
         command   => "\$(New-Object System.Net.WebClient).DownloadFile('$source','$filename')",
         creates   => $filename,
         before    => Exec['install extpack'],
-        path      => $::path
+        path      => $::path,
         provider  => powershell,
       }
 
