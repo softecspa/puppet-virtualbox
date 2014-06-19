@@ -30,7 +30,7 @@ class virtualbox(
         command   => "\$(New-Object System.Net.WebClient).DownloadFile('$source','$filename')",
         creates   => $filename,
         provider  => powershell,
-        path      => $::path
+        path      => $::path,
         before    => Package[$pkg_name]
       }
 
